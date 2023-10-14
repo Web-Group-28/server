@@ -20,7 +20,7 @@ jobs:
       
       - name: Build and test
         run: |
-            docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/team-28-backend .
+            docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/team-28-backend ./server
             docker run ${{ secrets.DOCKERHUB_USERNAME }}/team-28-backend npm test
       
       - name: Push Docker image
