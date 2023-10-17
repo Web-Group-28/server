@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set('port', 3000);
 
 app.get('/', (req, res) => {
-  //TODO
+  res.send("API is UP");
 });
 
 app.post('/api/register', require('./routes/api/register'));
