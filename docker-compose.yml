@@ -1,5 +1,22 @@
 version: '3.8'
+
 services:
+  app:
+    image: trieu81200111/team-28-backend
+    volumes:
+      - ./public/images:/app/public/images
+    environment:
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+      - PORT=${PORT}
+    ports:
+      - "${PORT}:${PORT}"
+    restart: unless-stopped
+    depends_on:
+        mongodb:
+          condition: service_healthy
+
   mongodb:
     image: mongo:latest
     container_name: mongodb-team-28
@@ -8,5 +25,11 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   mongodb_data:
