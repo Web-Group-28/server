@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: my-products
+            port:
+              number: 60000
+      - path: /discounted
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: my-discounted-products
+            port:
+              number: 80

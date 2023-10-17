@@ -14,9 +14,8 @@ services:
       - "${PORT}:${PORT}"
     restart: unless-stopped
     depends_on:
-        mongodb:
-          condition: service_healthy
-
+      - mongodb
+  
   mongodb:
     image: mongo:latest
     container_name: mongodb-team-28
@@ -25,11 +24,6 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
 volumes:
   mongodb_data:
