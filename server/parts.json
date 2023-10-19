@@ -152,6 +152,18 @@
                   "left_sentence": "Yes",
                   "correct": "Vâng"
                }
+            ],
+            "fill": [
+               {
+                  "left_sentence": "You",
+                  "right_sentence": "a good friend",
+                  "answers": [
+                     "is",
+                     "are",
+                     "am"
+                  ],
+                  "correct": "are"
+               }
             ]
          }
       ]
