@@ -5,20 +5,52 @@ metadata:
     app: app-deployment
   name: app-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: app
+      app: app-pod
   template:
     metadata:
       labels:
-        app: app
+        app: app-pod
     spec:
       containers:
       - image: trieu81200111/team-28-backend
         name: app
         ports:
         - containerPort: 3000
+        env:
+        - name: PORT
+          value: 3000
         envFrom:
         - configMapRef:
-            name: postgres-config
+            name: mongodb-config
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mongo-deployment
+  name: mongo-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mongo-pod
+  template:
+    metadata:
+      labels:
+        app: mongo-pod
+    spec:
+      containers:
+      - image: mongo
+        name: mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/db
+          name: db-data
+      volumes:
+      - name: db-data
+        emptyDir: {} 
