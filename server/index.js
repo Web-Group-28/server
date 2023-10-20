@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
+const authMiddleware = require('./middlewares/auth')
 
 db.connect();
 
@@ -21,11 +22,12 @@ const port = process.env.PORT || 3000
 app.set('port', port);
 
 app.get('/', (req, res) => {
-  //TODO
+  res.send("API is UP");
 });
 
-app.post('/api/register', require('./routes/api/register'));
-app.post('/api/login', require('./routes/api/login'));
+app.post('/api/register', require('./routes/api/user').register);
+app.post('/api/login', require('./routes/api/user').login);
+app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));
 app.get('/api/courses', require('./routes/api/courses'));
