@@ -1,7 +1,7 @@
 const { NextFunction, Request, Response } = require("express");
 const UserModel = require('../../models/user');
 const jwt = require('jsonwebtoken');
-const { secret } = require("../../config");
+const { secret } = require("../../config/config.env");
 
 const normalizeUser = (user) => {
     const token = jwt.sign({ id: user.id, email: user.email }, secret);
@@ -54,7 +54,15 @@ const login = async (req, res, next) => {
     }
 };
 
+const currentUser = (req, res) => {
+    if (!req.user) {
+        return res.sendStatus(401);
+    }
+    res.send(normalizeUser(req.user));
+};
+
 module.exports = {
     register,
     login,
+    currentUser
 };
