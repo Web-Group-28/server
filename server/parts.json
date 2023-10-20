@@ -1,0 +1,171 @@
+[
+   {
+      "title": "Cửa 1",
+      "description": "Gọi đồ uống, chào hỏi",
+      "lessons": [
+         {
+            "title": "Gọi đồ uống",
+            "choice": [
+               {
+                  "question": "không",
+                  "answers": [
+                     "noodles",
+                     "no",
+                     "hot"
+                  ],
+                  "correct": "no"
+               },
+               {
+                  "question": "cơm",
+                  "answers": [
+                     "noodles",
+                     "rice",
+                     "hot"
+                  ],
+                  "correct": "rice"
+               },
+               {
+                  "question": "không",
+                  "answers": [
+                     "tea",
+                     "no",
+                     "water"
+                  ],
+                  "correct": "no"
+               },
+               {
+                  "question": "cơm",
+                  "answers": [
+                     "noodles",
+                     "tea",
+                     "rice"
+                  ],
+                  "correct": "rice"
+               },
+               {
+                  "question": "sữa",
+                  "answers": [
+                     "milk",
+                     "coffee",
+                     "rice"
+                  ],
+                  "correct": "milk"
+               },
+               {
+                  "question": "nóng",
+                  "answers": [
+                     "hot",
+                     "noodles",
+                     "tea"
+                  ],
+                  "correct": "hot"
+               }
+            ],
+            "match": {
+               "cà phê": "coffee",
+               "cơm": "rice",
+               "nóng": "hot",
+               "sữa": "milk",
+               "trà": "tea",
+               "không": "no",
+               "mì": "noodles"
+            },
+            "sentence": [
+               {
+                  "words": [
+                     "cảm",
+                     "sữa",
+                     "Cà",
+                     "là",
+                     "nước",
+                     "phê",
+                     "hay",
+                     "Vui",
+                     "nóng"
+                  ],
+                  "left_sentence": "Coffee or water?",
+                  "correct": "Cà phê hay nước"
+               },
+               {
+                  "words": [
+                     "mì",
+                     "và",
+                     "Vui",
+                     "nước",
+                     "cà",
+                     "phê",
+                     "nóng"
+                  ],
+                  "left_sentence": "hot coffee",
+                  "correct": "cà phê nóng"
+               },
+               {
+                  "words": [
+                     "Cà",
+                     "nước",
+                     "là",
+                     "phê",
+                     "hay",
+                     "trà",
+                     "cho",
+                     "tạm"
+                  ],
+                  "left_sentence": "Coffee or tea?",
+                  "correct": "Cà phê hay trà"
+               },
+               {
+                  "words": [
+                     "và",
+                     "lòng",
+                     "nước",
+                     "chào",
+                     "cho",
+                     "phê",
+                     "Cà",
+                     "sữa"
+                  ],
+                  "left_sentence": "Coffee and milk!",
+                  "correct": "Cà phê và sữa"
+               },
+               {
+                  "words": [
+                     "trà",
+                     "lòng",
+                     "Vui",
+                     "đá",
+                     "mì",
+                     "cho",
+                     "nóng",
+                     "nước"
+                  ],
+                  "left_sentence": "Tea, please",
+                  "correct": "Vui lòng cho trà"
+               },
+               {
+                  "words": [
+                     "chào",
+                     "cà phê",
+                     "Vâng",
+                     "cà",
+                     "cơm"
+                  ],
+                  "left_sentence": "Yes",
+                  "correct": "Vâng"
+               }
+            ],
+            "fill": [
+               {
+                  "left_sentence": "You",
+                  "right_sentence": "a good friend",
+                  "answers": [
+                     "is",
+                     "are",
+                     "am"
+                  ],
+                  "correct": "are"
+               }
+            ]
+         }
+      ]
+   }
+]
