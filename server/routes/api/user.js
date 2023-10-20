@@ -1,4 +1,4 @@
-const express = require("express");
+const { NextFunction, Request, Response } = require("express");
 const UserModel = require('../../models/user');
 const jwt = require('jsonwebtoken');
 const { secret } = require("../../config");
@@ -31,6 +31,30 @@ const register = async (req, res, next) => {
     }
 };
 
+const login = async (req, res, next) => {
+    try {
+        const user = await UserModel.findOne({ email: req.body.email }).select(
+            "+password"
+        );
+        const errors = { emailOrPassword: "Incorrect email or password" };
+
+        if (!user) {
+            return res.status(422).json(errors);
+        }
+
+        const isSamePassword = await user.validatePassword(req.body.password);
+
+        if (!isSamePassword) {
+            return res.status(422).json(errors);
+        }
+
+        res.send(normalizeUser(user));
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     register,
+    login,
 };

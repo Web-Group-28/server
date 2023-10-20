@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
   res.send("API is UP");
 });
 
-app.post('/api/register', require('./routes/api/register'));
-app.post('/api/login', require('./routes/api/login'));
+app.post('/api/register', require('./routes/api/user').register);
+app.post('/api/login', require('./routes/api/user').login);
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));
 app.get('/api/courses', require('./routes/api/courses'));
