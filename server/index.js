@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
+const authMiddleware = require('./middlewares/auth')
 
 db.connect();
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/register', require('./routes/api/user').register);
 app.post('/api/login', require('./routes/api/user').login);
+app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));
 app.get('/api/courses', require('./routes/api/courses'));
