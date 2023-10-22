@@ -12,8 +12,9 @@ const lessons = async function (req, res) {
    var lessonsID = [];
    if (course == null) {
       res.send({
+         "data": null,
          "meta": {
-            'error': 404,
+            'code': 404,
             'message': 'Course not found'
          }
       });
@@ -25,7 +26,13 @@ const lessons = async function (req, res) {
          lessonsID = lessonsID.concat(partLessons);
       }
       res.send({
-         "lessonsID": lessonsID
+         "data": {
+            "lessons": lessonsID
+         },
+         "meta": {
+            'code': 200,
+            'message': 'OK'
+         }
       });
    }
 }
