@@ -22,7 +22,7 @@ const lessons = async function (req, res) {
       const partsID = course.parts;
       for (let i = 0; i < partsID.length; i++) {
          let part = await Part.findById(partsID[i]).exec();
-         const partLessons = part.getLessonIDs();
+         const partLessons = part.lessons;
          lessonsID = lessonsID.concat(partLessons);
       }
       res.send({
