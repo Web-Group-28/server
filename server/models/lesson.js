@@ -7,7 +7,7 @@ const lessonSchema = new Schema({
    choice: [ObjectId],
    match: Object,
    sentence: [ObjectId],
-   fill: [fillQuestion.schema]
+   fill: [ObjectId]
 });
 const lesson = mongoose.model('lesson', lessonSchema);
 module.exports = lesson;
