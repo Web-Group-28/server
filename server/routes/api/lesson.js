@@ -1,11 +1,12 @@
 const Course = require('../../models/course');
+const Lesson = require('../../models/lesson');
 const Part = require('../../models/part');
 /**
  * Lesson
  * @param {Request} req 
  * @param {Request} res 
  */
-const lesson = async (req, res) => {
+const lessonAPI = async (req, res) => {
    const courseId = req.params.courseId;
    const lessonId = req.params.lessonId;
    const course = await Course.findOne({
@@ -25,16 +26,16 @@ const lesson = async (req, res) => {
       for (let i = 0; i < partsID.length; i++) {
          let part = await Part.findById(partsID[i]).exec();
          console.log(part);
-         const partLessons = part.lessons;
+         console.log(partsID[i]);
+         const partLessons = part.getLessonIds();
          lessonsID = lessonsID.concat(partLessons);
       };
       console.log(lessonId);
       console.log(lessonsID);
       if (lessonsID.includes(lessonId) == true) {
+         const lesson = await Lesson.findById(lessonId).exec();
          res.send({
-            "data": {
-               "lesson": lessonId
-            },
+            "data": lesson,
             "meta": {
                'code': 200,
                'message': 'OK'
@@ -45,10 +46,10 @@ const lesson = async (req, res) => {
             "data": null,
             "meta": {
                'code': 404,
-               'message': 'Course not found'
+               'message': 'Lesson not found'
             }
          });
       }
    }
 }
-module.exports = lesson;
+module.exports = lessonAPI;
