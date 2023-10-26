@@ -1,14 +1,28 @@
 const mongoose = require('mongoose');
-const Lesson = require('./models/lesson');
+const Course = require('./models/course');
 const SentenceQuestion = require('./models/sentenceQuestion');
+const Lesson = require('./models/lesson');
 const FillQuestion = require('./models/fillQuestion');
 const Part = require('./models/part');
+const part = require('./models/part');
+const choiceQuestion = require('./models/choiceQuestion');
 mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
    useNewUrlParser: true,
    useUnifiedTopology: true,
 }).then(() => {
-   console.log("connected");
-   const sentenceQuestion1 = new SentenceQuestion({
+   // TODO: Lesson 1 - Part 2
+   const fillQuestion = new FillQuestion({
+      left_sentence: "You",
+      right_sentence: "a good friend",
+      answers: [
+         "is",
+         "are",
+         "am"
+      ],
+      correct: "are"
+   });
+   fillQuestion.save().then(console.log(fillQuestion._id.toString()));
+   const sQ1 = new SentenceQuestion({
       words: [
          "con",
          "Bạn",
@@ -18,12 +32,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
          "tốt",
          "một",
          "có",
-         'chó'
+         "chó"
       ],
       left_sentence: "You have a dog",
       correct: "Bạn có một con chó"
    });
-   const sentenceQuestion2 = new SentenceQuestion({
+   sQ1.save().then(() => console.log(sQ1._id.toString()));
+   const sQ2 = new SentenceQuestion({
       words: [
          "mèo",
          "một",
@@ -33,12 +48,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
          "giáo",
          "tốt",
          "giỏi",
-         'là'
+         "là"
       ],
       left_sentence: "I am a teacher",
       correct: "Tôi là một giáo viên"
    });
-   const sentenceQuestion3 = new SentenceQuestion({
+   sQ2.save().then(() => console.log(sQ2._id.toString()));
+   const sQ3 = new SentenceQuestion({
       words: [
          "Bạn",
          "có",
@@ -48,12 +64,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
          "người",
          "viên",
          "bạn",
-         'chó'
+         "chó"
       ],
       left_sentence: "You have a friend",
       correct: "Bạn có một người bạn"
    });
-   const sentenceQuestion4 = new SentenceQuestion({
+   sQ3.save().then(() => console.log(sQ3._id.toString()));
+   const sQ4 = new SentenceQuestion({
       words: [
          "Tôi",
          "và",
@@ -63,12 +80,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
          "biết",
          "sống",
          "Đôn",
-         'Luân'
+         "Luân"
       ],
       left_sentence: "I live in London",
       correct: "Tôi sống ở Luân Đôn"
    });
-   const sentenceQuestion5 = new SentenceQuestion({
+   sQ4.save().then(() => console.log(sQ4._id.toString()));
+   const sQ5 = new SentenceQuestion({
       words: [
          "small",
          "a",
@@ -81,7 +99,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
       left_sentence: "một ngôi nhà nhỏ",
       correct: "a small house"
    });
-   const sentenceQuestion6 = new SentenceQuestion({
+   sQ5.save().then(() => console.log(sQ5._id.toString()));
+   const sQ6 = new SentenceQuestion({
       words: [
          "small",
          "cars",
@@ -97,35 +116,30 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
       left_sentence: "Tôi sống ở một ngôi nhà nhỏ",
       correct: "I live in a small house"
    });
-   const fillQuestion = new FillQuestion({
-      left_sentence: "You",
-      right_sentence: "a good friend",
-      answers: [
-         "is",
-         "are",
-         "am"
+   sQ6.save().then(() => console.log(sQ6._id.toString()));
+   const lesson1 = new Lesson({
+      title: "Giới thiệu bản thân",
+      choice: [],
+      match: {
+      },
+      sentence: [
+         sQ1._id,
+         sQ2._id,
+         sQ3._id,
+         sQ4._id,
+         sQ5._id,
+         sQ6._id
       ],
-      correct: "are"
-   });
+      fill: [
+         fillQuestion._id
+      ]
+   })
+   lesson1.save().then(console.log(`LESSON:${lesson1._id.toString()}`))
    const part2 = new Part({
       title: "Cửa 2",
       description: "Giới thiệu bản thân, miêu tả gia đình",
-      lessons: [
-         new Lesson({
-            title: "Giới thiệu bản thân",
-            match: {},
-            sentence: [sentenceQuestion1,
-               sentenceQuestion2,
-               sentenceQuestion3,
-               sentenceQuestion4,
-               sentenceQuestion5,
-               sentenceQuestion6
-            ],
-            fill: [fillQuestion]
-         })
-      ]
-   });
-   part2.save().then(()=>{
-      console.log("Part 2 created");
+      lessons: [lesson1._id]
    })
+   part2.save().then(console.log("ADD PART 2"))
+   process.exit(0);
 });
