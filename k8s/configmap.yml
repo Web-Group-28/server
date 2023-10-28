@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: mongodb-config
 data:
-  MONGO_HOST=mongodb
-  MONGO_PORT=27017
-  MONGO_DB_NAME=team_28
+  MONGO_HOST:mongodb
+  MONGO_PORT:27017
+  MONGO_DB_NAME:team_28
