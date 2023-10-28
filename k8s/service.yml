@@ -18,7 +18,7 @@ metadata:
   name: mongodb
 spec:
   selector:
-      name: mongo-pod
+      app: mongo-pod
   ports:
     - port: 27017
       targetPort: 27017
