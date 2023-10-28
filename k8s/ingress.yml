@@ -6,17 +6,10 @@ spec:
   rules:
   - http:
       paths:
-      - path: /*
+      - path: /
         pathType: ImplementationSpecific
         backend:
           service:
-            name: my-products
-            port:
-              number: 60000
-      - path: /discounted
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: my-discounted-products
+            name: app
             port:
               number: 80

@@ -8,7 +8,7 @@ spec:
     app: app-pod
   ports:
   - protocol: TCP
-    port: 60000
+    port: 60
     targetPort: 3000
 
 ---

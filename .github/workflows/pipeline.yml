@@ -23,3 +23,18 @@ jobs:
       
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/team-28-backend
+
+      - name: Install gcloud cli
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GOOGLE_PROJECT }}
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          install_components: 'gke-gcloud-auth-plugin'
+          export_default_credentials: true
+      
+      - name: Deploy to GKE
+        env:
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+        run: |
+          gcloud container clusters get-credentials team-28-backend-cluster-1 --region asia-southeast1
+          kustomize build .  | kubectl apply -f -
