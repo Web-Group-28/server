@@ -1,6 +1,6 @@
 const { NextFunction, Response } = require("express");
 const jwt = require("jsonwebtoken");
-const { secret } = require("../config");
+const { secret } = require("../config/config.env");
 const UserModel = require("../models/user");
 
 module.exports = async (req, res, next) => {
