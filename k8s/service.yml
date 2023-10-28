@@ -8,7 +8,7 @@ spec:
     app: app-pod
   ports:
   - protocol: TCP
-    port: 60
+    port: 80
     targetPort: 3000
 
 ---
@@ -17,8 +17,8 @@ kind: Service
 metadata:
   name: mongodb
 spec:
+  selector:
+      name: mongo-pod
   ports:
     - port: 27017
       targetPort: 27017
-  selector:
-    name: mongo-pod

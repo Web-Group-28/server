@@ -4,6 +4,7 @@ metadata:
   name: my-ingress
 spec:
   rules:
+  - host: team28.backend.com
   - http:
       paths:
       - path: /
