@@ -37,4 +37,4 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud container clusters get-credentials team-28-backend-cluster-1 --region asia-southeast1
-          kustomize build ./k8s  | kubectl apply -f -
+          kustomize build ../k8s  | kubectl apply -f -
