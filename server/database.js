@@ -5,121 +5,67 @@ const Lesson = require('./models/lesson');
 const FillQuestion = require('./models/fillQuestion');
 const Part = require('./models/part');
 const part = require('./models/part');
-const choiceQuestion = require('./models/choiceQuestion');
+const ChoiceQuestion = require('./models/choiceQuestion');
 mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
    useNewUrlParser: true,
    useUnifiedTopology: true,
-}).then(() => {
-   // TODO: Lesson 1 - Part 2
-   const fillQuestion = new FillQuestion({
-      left_sentence: "You",
-      right_sentence: "a good friend",
-      answers: [
-         "is",
-         "are",
-         "am"
-      ],
-      correct: "are"
+}).then(async () => {
+   // TODO: Lesson 1 - Part 4
+
+   const cQ1 = new ChoiceQuestion({
+      question: "wʌn",
+      answers: ["on", "once", "or", 'one'],
+      correct: "one"
    });
-   fillQuestion.save().then(console.log(fillQuestion._id.toString()));
+   cQ1.save().catch(err => console.log(err));
+
    const sQ1 = new SentenceQuestion({
-      words: [
-         "con",
-         "Bạn",
-         "lớn",
-         "không",
-         "Vâng",
-         "tốt",
-         "một",
-         "có",
-         "chó"
-      ],
-      left_sentence: "You have a dog",
-      correct: "Bạn có một con chó"
-   });
-   sQ1.save().then(() => console.log(sQ1._id.toString()));
+      sentence: "năm bánh pizza và ba bia",
+      words: ['dollar', 'or', 'three', 'five', 'pizzas', 'a cup of', 'and', `he's`, 'beers'],
+      correct: "five pizzas and three beers"
+   })
+   sQ1.save().catch(err => console.log(err))
    const sQ2 = new SentenceQuestion({
-      words: [
-         "mèo",
-         "một",
-         "nhỏ",
-         "Tôi",
-         "viên",
-         "giáo",
-         "tốt",
-         "giỏi",
-         "là"
-      ],
-      left_sentence: "I am a teacher",
-      correct: "Tôi là một giáo viên"
-   });
-   sQ2.save().then(() => console.log(sQ2._id.toString()));
+      sentence: "I would like a pizza and a beer",
+      words: ['hai', 'năm', 'bánh', 'muốn', 'một', 'bia', 'một', `chiếc`, 'thực đơn', 'Tôi', 'và', 'không', 'pizza'],
+      correct: "Tôi muốn một chiếc bánh pizza và một bia"
+   })
+   sQ2.save().catch(err => console.log(err))
    const sQ3 = new SentenceQuestion({
-      words: [
-         "Bạn",
-         "có",
-         "một",
-         "không",
-         "sinh",
-         "người",
-         "viên",
-         "bạn",
-         "chó"
-      ],
-      left_sentence: "You have a friend",
-      correct: "Bạn có một người bạn"
-   });
-   sQ3.save().then(() => console.log(sQ3._id.toString()));
+      sentence: "Đây là hóa đơn của bạn",
+      words: ['smart', 'is', 'father', 'This', 'check', 'your', 'for two', `mother`],
+      correct: "This is your check"
+   })
+   sQ3.save().catch(err => console.log(err))
    const sQ4 = new SentenceQuestion({
-      words: [
-         "Tôi",
-         "và",
-         "đến",
-         "tiếng Pháp",
-         "ở",
-         "biết",
-         "sống",
-         "Đôn",
-         "Luân"
-      ],
-      left_sentence: "I live in London",
-      correct: "Tôi sống ở Luân Đôn"
-   });
-   sQ4.save().then(() => console.log(sQ4._id.toString()));
+      sentence: "a nice restaurant",
+      words: ['hàng', 'nhà', 'Họ', 'đẹp', 'cơm', 'cho', 'một', `nhỏ`],
+      correct: "một nhà hàng đẹp"
+   })
+   sQ4.save().catch(err => console.log(err))
    const sQ5 = new SentenceQuestion({
-      words: [
-         "small",
-         "a",
-         "student",
-         "car",
-         "house",
-         "dogs",
-         "cars"
-      ],
-      left_sentence: "một ngôi nhà nhỏ",
-      correct: "a small house"
-   });
-   sQ5.save().then(() => console.log(sQ5._id.toString()));
+      sentence: "I need a menu, please",
+      words: ['quyển', 'thực', 'cần', 'một', 'ơn', 'tiền', 'Tôi', `làm`, `có`, `đơn`, `hai`, `của`],
+      correct: "Tôi cần một quyển thực đơn, làm ơn"
+   })
+   sQ5.save().catch(err => console.log(err))
    const sQ6 = new SentenceQuestion({
-      words: [
-         "small",
-         "cars",
-         "I",
-         "car",
-         "a",
-         "in",
-         "student",
-         "live",
-         "house",
-         "friend"
-      ],
-      left_sentence: "Tôi sống ở một ngôi nhà nhỏ",
-      correct: "I live in a small house"
-   });
-   sQ6.save().then(() => console.log(sQ6._id.toString()));
+      sentence: "Cheers, Duo",
+      words: [`bánh`, `Dô`, 'thì', 'cho', 'Duo', 'bia'],
+      correct: "Dô Duo"
+   })
+   sQ6.save().catch(err => console.log(err))
+   const sQ7 = new SentenceQuestion({
+      sentence: "I would like more coffee",
+      words: ['cả', 'muốn', 'nước', 'cốc', 'cái bàn', 'phê', 'Tôi', 'thêm', 'tốt'],
+      correct: "Tôi muốn thêm cà phê"
+   })
+   sQ7.save().catch(err => console.log(err))
+
    const lesson1 = new Lesson({
-      title: "Giới thiệu bản thân",
-      choice: [],
+      title: "Giao tiếp ở nhà hàng",
+      choice: [cQ1._id
+      ],
       match: {
       },
       sentence: [
@@ -128,18 +74,23 @@ mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
          sQ3._id,
          sQ4._id,
          sQ5._id,
-         sQ6._id
+         sQ6._id,
+         sQ7._id
       ],
-      fill: [
-         fillQuestion._id
-      ]
+      fill: []
    })
-   lesson1.save().then(console.log(`LESSON:${lesson1._id.toString()}`))
-   const part2 = new Part({
-      title: "Cửa 2",
-      description: "Giới thiệu bản thân, miêu tả gia đình",
+   lesson1.save().then(console.log(`LESSON 1:${lesson1._id}`))
+
+   const part4 = await Part.create({
+      title: "Cửa 4",
+      description: "Giao tiếp ở nhà hàng, nói chuyện trường lớp",
       lessons: [lesson1._id]
-   })
-   part2.save().then(console.log("ADD PART 2"))
-   process.exit(0);
+   });
+   console.log(part4._id);
+   const englishCourse = await Course.findOne({ courseID: "en-vi" }).exec();
+   englishCourse.parts.push(part4._id);
+   englishCourse.save().then(() => {
+      console.log(`ADD TO THE COURSE: ${part4._id}`)
+      process.exit(0)
+   }).catch(err => console.log(err));
 });
