@@ -11,8 +11,6 @@ const lessonAPI = async (req, res) => {
    const lessonsData = lessonsResponse.data;
    console.log(lessonsData.meta.code);
    console.log(lessonsData);
-   const lessonId = String(req.params.lessonId);
-   const lessonsID = [...lessonsData.data.lessons];
    if (parseInt(lessonsData.meta.code) != 200) {
       res.send({
          "data": null,
@@ -22,7 +20,8 @@ const lessonAPI = async (req, res) => {
          }
       });
    } else {
-      
+      const lessonId = String(req.params.lessonId);
+      const lessonsID = [...lessonsData.data.lessons];
       if (lessonsID.includes(lessonId) == true) {
          const lesson = await Lesson.findById(lessonId).exec();
          res.send({
