@@ -9,8 +9,8 @@ const lessonAPI = async (req, res) => {
    const courseId = String(req.params.courseId);
    const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${courseId}/lessons`);
    const lessonsData = lessonsResponse.data;
-   console.log(lessonsData.meta.code);
-   console.log(lessonsData);
+   // console.log(lessonsData.meta.code);
+   // console.log(lessonsData);
    if (parseInt(lessonsData.meta.code) != 200) {
       res.send({
          "data": null,
