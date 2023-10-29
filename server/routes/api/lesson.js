@@ -1,19 +1,19 @@
-const Course = require('../../models/course');
 const Lesson = require('../../models/lesson');
-const Part = require('../../models/part');
+const axios = require('axios');
 /**
  * Lesson
  * @param {Request} req 
  * @param {Request} res 
  */
 const lessonAPI = async (req, res) => {
-   const courseId = req.params.courseId;
-   const lessonId = req.params.lessonId;
-   const course = await Course.findOne({
-      courseID: courseId
-   }).exec();
-   var lessonsID = [];
-   if (course == null) {
+   const courseId = String(req.params.courseId);
+   const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${courseId}/lessons`);
+   const lessonsData = lessonsResponse.data;
+   console.log(lessonsData.meta.code);
+   console.log(lessonsData);
+   const lessonId = String(req.params.lessonId);
+   const lessonsID = [...lessonsData.data.lessons];
+   if (parseInt(lessonsData.meta.code) != 200) {
       res.send({
          "data": null,
          "meta": {
@@ -22,16 +22,7 @@ const lessonAPI = async (req, res) => {
          }
       });
    } else {
-      const partsID = course.parts;
-      for (let i = 0; i < partsID.length; i++) {
-         let part = await Part.findById(partsID[i]).exec();
-         console.log(part);
-         console.log(partsID[i]);
-         const partLessons = part.getLessonIds();
-         lessonsID = lessonsID.concat(partLessons);
-      };
-      console.log(lessonId);
-      console.log(lessonsID);
+      
       if (lessonsID.includes(lessonId) == true) {
          const lesson = await Lesson.findById(lessonId).exec();
          res.send({
@@ -42,6 +33,8 @@ const lessonAPI = async (req, res) => {
             }
          });
       } else {
+         // console.log(lessonsID);
+         // console.log(lessonId);
          res.send({
             "data": null,
             "meta": {
