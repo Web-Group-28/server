@@ -23,5 +23,5 @@ const partSchema = new Schema({
       }
    }
 );
-const part = mongoose.model('part', partSchema);
-module.exports = part;
+const Part = mongoose.model('part', partSchema);
+module.exports = Part;

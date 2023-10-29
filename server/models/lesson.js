@@ -9,5 +9,5 @@ const lessonSchema = new Schema({
    sentence: [ObjectId],
    fill: [ObjectId]
 });
-const lesson = mongoose.model('lesson', lessonSchema);
-module.exports = lesson;
+const Lesson = mongoose.model('lesson', lessonSchema);
+module.exports = Lesson;

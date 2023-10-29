@@ -6,5 +6,5 @@ const courseSchema = new Schema({
    title: String,
    parts: [ObjectId]
 });
-const course = mongoose.model('course', courseSchema);
-module.exports = course;
+const Course = mongoose.model('course', courseSchema);
+module.exports = Course;

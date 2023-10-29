@@ -5,5 +5,5 @@ const choiceQuestionSchema = new Schema({
    answers: [String],
    correct: String
 });
-const choiceQuestion = mongoose.model('choice_question', choiceQuestionSchema);
-module.exports = choiceQuestion;
+const ChoiceQuestion = mongoose.model('choice_question', choiceQuestionSchema);
+module.exports = ChoiceQuestion;

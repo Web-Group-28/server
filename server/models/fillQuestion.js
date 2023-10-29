@@ -6,5 +6,5 @@ const fillQuestionSchema = new Schema({
    answers: [String],
    correct: String
 });
-const fillQuestion = mongoose.model('fill_question', fillQuestionSchema);
-module.exports = fillQuestion;
+const FillQuestion = mongoose.model('fill_question', fillQuestionSchema);
+module.exports = FillQuestion;
