@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-// const authMiddleware = require('./middlewares/auth')
+const authMiddleware = require('./middlewares/auth')
 
 const app = express();
 db.connect();
@@ -25,9 +25,9 @@ app.get('/', (req, res) => {
   res.send("API is UP");
 });
 
-// app.post('/api/register', require('./routes/api/user').register);
-// app.post('/api/login', require('./routes/api/user').login);
-// app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
+app.post('/api/register', require('./routes/api/user').register);
+app.post('/api/login', require('./routes/api/user').login);
+app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
 // app.get('/api/user/profile', require('./routes/api/profile'));
 // app.get('/api/languages', require('./routes/api/languages'));
 // app.get('/api/courses', require('./routes/api/courses'));

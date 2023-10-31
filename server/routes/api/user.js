@@ -1,10 +1,11 @@
 const { NextFunction, Request, Response } = require("express");
 const UserModel = require('../../models/user');
 const jwt = require('jsonwebtoken');
-const { secret } = require("../../config/config.env");
+const mongoose = require('mongoose');
+const secret = require("../../config/config");
 
 const normalizeUser = (user) => {
-    const token = jwt.sign({ id: user.id, email: user.email }, secret);
+    const token = jwt.sign({ id: user.id, email: user.email }, secret.secret);
     return {
         email: user.email,
         username: user.username,

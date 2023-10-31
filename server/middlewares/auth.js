@@ -1,7 +1,7 @@
-const { NextFunction, Response } = require("express");
+const { Response } = require("express");
 const jwt = require("jsonwebtoken");
-const { secret } = require("../config/config.env");
 const UserModel = require("../models/user");
+const secret = require("../config/config");
 
 module.exports = async (req, res, next) => {
     try {
@@ -11,8 +11,8 @@ module.exports = async (req, res, next) => {
             return res.sendStatus(401);
         }
         const token = authHeader.split(' ')[1];
-        const data = jwt.verify(token, secret);
-
+        const data = jwt.verify(token, secret.secret);
+        
         const user = await UserModel.findById(data.id);
 
         if (!user) {
