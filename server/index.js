@@ -37,8 +37,8 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-app.post('/api/register', require('./routes/api/register'));
-app.post('/api/login', require('./routes/api/login'));
+app.post('/api/register', require('./routes/api/user').register);
+app.post('/api/login', require('./routes/api/user').login);
 app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));
