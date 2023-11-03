@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const authMiddleware = require('./middlewares/auth')
 
 const app = express();
+const axios = require('axios');
 db.connect();
 
 app.use(bodyParser.json());
@@ -24,21 +25,32 @@ app.set('port', port);
 app.get('/', (req, res) => {
   res.send("API is UP");
 });
-
-app.post('/api/register', require('./routes/api/user').register);
-app.post('/api/login', require('./routes/api/user').login);
+app.get('/courses/:courseId/lessons', async (req, res) => {
+  try {
+    const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${req.params.courseId}/lessons`);
+    const lessonsData = lessonsResponse.data;
+    console.log(lessonsData)
+    res.send(lessonsData)
+  } catch (error) {
+    // Handle any errors that occur during the request
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.post('/api/register', require('./routes/api/register'));
+app.post('/api/login', require('./routes/api/login'));
 app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser)
-// app.get('/api/user/profile', require('./routes/api/profile'));
-// app.get('/api/languages', require('./routes/api/languages'));
-// app.get('/api/courses', require('./routes/api/courses'));
-// app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons'));
-// app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson'));
-// app.get('/api/user/progress', require('./routes/api/progress'));
-// app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));
-// app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));
-// app.post('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId/submit', require('./routes/api/submit'));
-// app.get('/api/leaderboard', require('./routes/api/leaderboard'));
-// app.get('/api/user/friends', require('./routes/api/friends'));
+app.get('/api/user/profile', require('./routes/api/profile'));
+app.get('/api/languages', require('./routes/api/languages'));
+app.get('/api/courses', require('./routes/api/courses'));
+app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons'));
+app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson'));
+app.get('/api/user/progress', require('./routes/api/progress'));
+app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));
+app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));
+app.post('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId/submit', require('./routes/api/submit'));
+app.get('/api/leaderboard', require('./routes/api/leaderboard'));
+app.get('/api/user/friends', require('./routes/api/friends'));
 
 app.listen(app.get('port'), '0.0.0.0', () => {
    console.log(`Node app is running on port ${app.get('port')}`);

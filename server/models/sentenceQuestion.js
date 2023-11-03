@@ -5,5 +5,5 @@ const sentenceQuestionSchema = new Schema({
    left_sentence: String,
    correct: String
 });
-const sentenceQuestion = mongoose.model('sentence_question', sentenceQuestionSchema);
-module.exports = sentenceQuestion;
+const SentenceQuestion = mongoose.model('sentence_question', sentenceQuestionSchema);
+module.exports = SentenceQuestion;

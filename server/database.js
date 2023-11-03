@@ -1,131 +1,96 @@
 const mongoose = require('mongoose');
-const Lesson = require('./models/lesson');
+const Course = require('./models/course');
 const SentenceQuestion = require('./models/sentenceQuestion');
+const Lesson = require('./models/lesson');
 const FillQuestion = require('./models/fillQuestion');
 const Part = require('./models/part');
+const part = require('./models/part');
+const ChoiceQuestion = require('./models/choiceQuestion');
 mongoose.connect('mongodb://127.0.0.1:27017/duolingo', {
    useNewUrlParser: true,
    useUnifiedTopology: true,
-}).then(() => {
-   console.log("connected");
-   const sentenceQuestion1 = new SentenceQuestion({
-      words: [
-         "con",
-         "Bạn",
-         "lớn",
-         "không",
-         "Vâng",
-         "tốt",
-         "một",
-         "có",
-         'chó'
-      ],
-      left_sentence: "You have a dog",
-      correct: "Bạn có một con chó"
+}).then(async () => {
+   // TODO: Lesson 1 - Part 4
+
+   const cQ1 = new ChoiceQuestion({
+      question: "wʌn",
+      answers: ["on", "once", "or", 'one'],
+      correct: "one"
    });
-   const sentenceQuestion2 = new SentenceQuestion({
-      words: [
-         "mèo",
-         "một",
-         "nhỏ",
-         "Tôi",
-         "viên",
-         "giáo",
-         "tốt",
-         "giỏi",
-         'là'
-      ],
-      left_sentence: "I am a teacher",
-      correct: "Tôi là một giáo viên"
-   });
-   const sentenceQuestion3 = new SentenceQuestion({
-      words: [
-         "Bạn",
-         "có",
-         "một",
-         "không",
-         "sinh",
-         "người",
-         "viên",
-         "bạn",
-         'chó'
-      ],
-      left_sentence: "You have a friend",
-      correct: "Bạn có một người bạn"
-   });
-   const sentenceQuestion4 = new SentenceQuestion({
-      words: [
-         "Tôi",
-         "và",
-         "đến",
-         "tiếng Pháp",
-         "ở",
-         "biết",
-         "sống",
-         "Đôn",
-         'Luân'
-      ],
-      left_sentence: "I live in London",
-      correct: "Tôi sống ở Luân Đôn"
-   });
-   const sentenceQuestion5 = new SentenceQuestion({
-      words: [
-         "small",
-         "a",
-         "student",
-         "car",
-         "house",
-         "dogs",
-         "cars"
-      ],
-      left_sentence: "một ngôi nhà nhỏ",
-      correct: "a small house"
-   });
-   const sentenceQuestion6 = new SentenceQuestion({
-      words: [
-         "small",
-         "cars",
-         "I",
-         "car",
-         "a",
-         "in",
-         "student",
-         "live",
-         "house",
-         "friend"
-      ],
-      left_sentence: "Tôi sống ở một ngôi nhà nhỏ",
-      correct: "I live in a small house"
-   });
-   const fillQuestion = new FillQuestion({
-      left_sentence: "You",
-      right_sentence: "a good friend",
-      answers: [
-         "is",
-         "are",
-         "am"
-      ],
-      correct: "are"
-   });
-   const part2 = new Part({
-      title: "Cửa 2",
-      description: "Giới thiệu bản thân, miêu tả gia đình",
-      lessons: [
-         new Lesson({
-            title: "Giới thiệu bản thân",
-            match: {},
-            sentence: [sentenceQuestion1,
-               sentenceQuestion2,
-               sentenceQuestion3,
-               sentenceQuestion4,
-               sentenceQuestion5,
-               sentenceQuestion6
-            ],
-            fill: [fillQuestion]
-         })
-      ]
-   });
-   part2.save().then(()=>{
-      console.log("Part 2 created");
+   cQ1.save().catch(err => console.log(err));
+
+   const sQ1 = new SentenceQuestion({
+      sentence: "năm bánh pizza và ba bia",
+      words: ['dollar', 'or', 'three', 'five', 'pizzas', 'a cup of', 'and', `he's`, 'beers'],
+      correct: "five pizzas and three beers"
    })
+   sQ1.save().catch(err => console.log(err))
+   const sQ2 = new SentenceQuestion({
+      sentence: "I would like a pizza and a beer",
+      words: ['hai', 'năm', 'bánh', 'muốn', 'một', 'bia', 'một', `chiếc`, 'thực đơn', 'Tôi', 'và', 'không', 'pizza'],
+      correct: "Tôi muốn một chiếc bánh pizza và một bia"
+   })
+   sQ2.save().catch(err => console.log(err))
+   const sQ3 = new SentenceQuestion({
+      sentence: "Đây là hóa đơn của bạn",
+      words: ['smart', 'is', 'father', 'This', 'check', 'your', 'for two', `mother`],
+      correct: "This is your check"
+   })
+   sQ3.save().catch(err => console.log(err))
+   const sQ4 = new SentenceQuestion({
+      sentence: "a nice restaurant",
+      words: ['hàng', 'nhà', 'Họ', 'đẹp', 'cơm', 'cho', 'một', `nhỏ`],
+      correct: "một nhà hàng đẹp"
+   })
+   sQ4.save().catch(err => console.log(err))
+   const sQ5 = new SentenceQuestion({
+      sentence: "I need a menu, please",
+      words: ['quyển', 'thực', 'cần', 'một', 'ơn', 'tiền', 'Tôi', `làm`, `có`, `đơn`, `hai`, `của`],
+      correct: "Tôi cần một quyển thực đơn, làm ơn"
+   })
+   sQ5.save().catch(err => console.log(err))
+   const sQ6 = new SentenceQuestion({
+      sentence: "Cheers, Duo",
+      words: [`bánh`, `Dô`, 'thì', 'cho', 'Duo', 'bia'],
+      correct: "Dô Duo"
+   })
+   sQ6.save().catch(err => console.log(err))
+   const sQ7 = new SentenceQuestion({
+      sentence: "I would like more coffee",
+      words: ['cả', 'muốn', 'nước', 'cốc', 'cái bàn', 'phê', 'Tôi', 'thêm', 'tốt'],
+      correct: "Tôi muốn thêm cà phê"
+   })
+   sQ7.save().catch(err => console.log(err))
+
+   const lesson1 = new Lesson({
+      title: "Giao tiếp ở nhà hàng",
+      choice: [cQ1._id
+      ],
+      match: {
+      },
+      sentence: [
+         sQ1._id,
+         sQ2._id,
+         sQ3._id,
+         sQ4._id,
+         sQ5._id,
+         sQ6._id,
+         sQ7._id
+      ],
+      fill: []
+   })
+   lesson1.save().then(console.log(`LESSON 1:${lesson1._id}`))
+
+   const part4 = await Part.create({
+      title: "Cửa 4",
+      description: "Giao tiếp ở nhà hàng, nói chuyện trường lớp",
+      lessons: [lesson1._id]
+   });
+   console.log(part4._id);
+   const englishCourse = await Course.findOne({ courseID: "en-vi" }).exec();
+   englishCourse.parts.push(part4._id);
+   englishCourse.save().then(() => {
+      console.log(`ADD TO THE COURSE: ${part4._id}`)
+      process.exit(0)
+   }).catch(err => console.log(err));
 });
