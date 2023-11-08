@@ -11,7 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   rules:
-  - host:
+  - host: 34.117.104.255
     http:
       paths:
       - path: /app/
