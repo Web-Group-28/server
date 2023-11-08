@@ -10,14 +10,8 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Api-Key,TimezoneOffset"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
-  rules:
-  - host: 34.117.104.255
-    http:
-      paths:
-      - path: /app/
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: app
-            port:
-              number: 80
+  defaultBackend:
+    service:
+      name: app
+      port:
+        number: 80
