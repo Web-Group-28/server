@@ -10,7 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   rules:
-  - host: backend.team28.hust.dev
+  - host:
     http:
       paths:
       - path: /app/
