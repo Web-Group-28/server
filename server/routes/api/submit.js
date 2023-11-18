@@ -4,9 +4,9 @@
  * @param {Request} res 
  */
 const submit = (req, res) => {
-   // req.params.courseId
-   // req.params.lessonId
-   // req.params.exerciseId
+   const courseId = req.params.courseId;
+   const lessonId = req.params.lessonId;
+   
    res.send({
       "Route": "submit"
    });

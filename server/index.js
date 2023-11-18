@@ -42,7 +42,7 @@ app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));
-app.post('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId/submit', require('./routes/api/submit'));
+app.post('/api/courses/:courseId/lessons/:lessonId/submit', require('./routes/api/submit'));
 app.get('/api/leaderboard', require('./routes/api/leaderboard'));
 app.get('/api/user/friends', require('./routes/api/friends'));
 
