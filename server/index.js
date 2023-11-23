@@ -48,6 +48,7 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
 });
 app.post('/api/register', require('./routes/api/user').register);//OK
 app.post('/api/login', require('./routes/api/user').login);//OK
+app.post('/api/logout', (req, res) => { req.session.destroy(); res.status(200).send({ 'data': null }) });//OK
 app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser);//OK
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));//OK
