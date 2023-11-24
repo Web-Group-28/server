@@ -21,19 +21,26 @@ const submit = async (req, res) => {
    const courseId = String(req.params.courseId);
    const lessonId = String(req.params.lessonId);
    const userID = await getUserID();
-   const learnedIDs = (await History.findOne({
-      userID: userID
-   }).exec()).learnedID;
-   for (let i = 0; i < learnedIDs.length; i++) {
-      const tmpID = learnedIDs[i].courseID.toString();
-      if (tmpID == courseId) {
-         const lessonsID = new Set(learnedIDs[i].lessonID);
-         lessonsID.add(mongoose.Types.ObjectId(lessonId));
-         break;
-      }
+   var userHistory = await History.findOne({
+      userID: userID,
+      courseID: courseId
+   }).exec();
+   if (userHistory == null) {
+      console.log(courseId);
+      const newHistory = new History({
+         userID: userID,
+         courseID: courseId,
+         lessonID: [new mongoose.Types.ObjectId(lessonId)]
+      });
+      newHistory.save().then(console.log(`HISTORY CREATED:${newHistory._id}`));
+   }
+   else {
+      console.log(userHistory);
+      userHistory.lessonID.addToSet(new mongoose.Types.ObjectId(lessonId));
+      userHistory.save().then(console.log(`SUBMITTED: ${userHistory._id}`))
    }
    res.send({
-      "Route": "submit"
+      "data": null
    });
 }
 module.exports = submit;
