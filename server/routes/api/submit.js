@@ -1,26 +1,15 @@
 const { default: mongoose } = require('mongoose');
 const History = require('../../models/history');
-const { default: axios } = require('axios');
 
 /**
- * Get user id in the current session
- * @returns
- */
-async function getUserID() {
-   const session = await axios.get('http://localhost:3000/api/session');
-   return session.data.userID;
-}
-
-
-/**
- * Submit
+ * Submit a lesson into user history
  * @param {Request} req 
  * @param {Request} res 
  */
 const submit = async (req, res) => {
    const courseId = String(req.params.courseId);
    const lessonId = String(req.params.lessonId);
-   const userID = await getUserID();
+   const userID = String(req.session.user);
    var userHistory = await History.findOne({
       userID: userID,
       courseID: courseId
@@ -28,7 +17,7 @@ const submit = async (req, res) => {
    if (userHistory == null) {
       console.log(courseId);
       const newHistory = new History({
-         userID: userID,
+         userID: new mongoose.Types.ObjectId(userID),
          courseID: courseId,
          lessonID: [new mongoose.Types.ObjectId(lessonId)]
       });

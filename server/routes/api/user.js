@@ -3,7 +3,6 @@ const UserModel = require('../../models/user');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const secret = require("../../config/config");
-var session;
 const normalizeUser = (user) => {
     const token = jwt.sign({ id: user.id, email: user.email }, secret.secret);
     return {
@@ -48,8 +47,7 @@ const login = async (req, res, next) => {
         if (!isSamePassword) {
             return res.status(422).json(errors);
         }
-        session = req.session;
-        session.userID = (user._id);
+        req.session.user = String(user._id);
         res.send(normalizeUser(user));
     } catch (err) {
         next(err);
