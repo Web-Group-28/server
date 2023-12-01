@@ -8,10 +8,10 @@ const Course = require("../../models/course");
 const courses = async (_req, res) => {
    const courses = await Course.find({}).exec();
    res.send({
-      'data': courses,
-      'meta': {
-         'code': 200,
-         'message': 'OK'
+      data: courses,
+      meta: {
+         code: 200,
+         message: 'OK'
       }
    });
 }

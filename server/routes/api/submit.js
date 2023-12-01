@@ -29,7 +29,7 @@ const submit = async (req, res) => {
       userHistory.save().then(console.log(`SUBMITTED: ${userHistory._id}`))
    }
    res.send({
-      "data": null
+      data: null
    });
 }
 module.exports = submit;
