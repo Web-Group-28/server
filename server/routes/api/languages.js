@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+const BaseResponse = require("../../utils/baseResponse");
 
 /**
  * Languages
@@ -14,12 +15,6 @@ const languages = async (req, res) => {
       const lang = courseId.split('-');
       langs.add(lang[1]);
    }
-   res.send({
-      data: [...langs],
-      meta: {
-         code: 200,
-         message: "OK"
-      }
-   })
+   res.send(BaseResponse.ofSucceed([...langs]));
 }
 module.exports = languages;
