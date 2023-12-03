@@ -1,5 +1,6 @@
 const Lesson = require('../../models/lesson');
 const axios = require('axios');
+const BaseResponse = require('../../utils/baseResponse');
 /**
  * Lesson
  * @param {Request} req 
@@ -12,35 +13,17 @@ const lessonAPI = async (req, res) => {
    // console.log(lessonsData.meta.code);
    // console.log(lessonsData);
    if (parseInt(lessonsData.meta.code) != 200) {
-      res.send({
-         "data": null,
-         "meta": {
-            'code': 404,
-            'message': 'Course not found'
-         }
-      });
+      res.send(BaseResponse.ofError('Course not found', 404))
    } else {
       const lessonId = String(req.params.lessonId);
       const lessonsID = [...lessonsData.data.lessons];
       if (lessonsID.includes(lessonId) == true) {
          const lesson = await Lesson.findById(lessonId).exec();
-         res.send({
-            "data": lesson,
-            "meta": {
-               'code': 200,
-               'message': 'OK'
-            }
-         });
+         res.send(BaseResponse.ofSucceed(lesson));
       } else {
          // console.log(lessonsID);
          // console.log(lessonId);
-         res.send({
-            "data": null,
-            "meta": {
-               'code': 404,
-               'message': 'Lesson not found'
-            }
-         });
+         res.send(BaseResponse.ofError('Lesson not found', 404));
       }
    }
 }
