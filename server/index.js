@@ -1,4 +1,5 @@
 const db = require('./config/db');
+const route = require('./routes');
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -26,6 +27,8 @@ const port = process.env.PORT || 3000
 
 app.set('port', port);
 
+route(app);
+
 app.get('/', (req, res) => {
   res.send("API is UP");
 });
@@ -41,10 +44,7 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-app.post('/api/register', require('./routes/api/user').register);//OK
-app.post('/api/login', require('./routes/api/user').login);//OK
-app.post('/api/logout', (req, res) => { req.session.destroy(); res.status(200).send({ 'data': null }) });//OK
-app.get('/api/token', authMiddleware, require('./routes/api/user').currentUser);//OK
+
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));//OK
 app.get('/api/courses', require('./routes/api/courses'));//OK
@@ -57,6 +57,6 @@ app.post('/api/courses/:courseId/lessons/:lessonId/submit', require('./routes/ap
 app.get('/api/leaderboard', require('./routes/api/leaderboard'));
 app.get('/api/user/friends', require('./routes/api/friends'));
 
-app.listen(app.get('port'), '0.0.0.0', () => {
+app.listen(app.get('port'), () => {
   console.log(`Node app is running on port ${app.get('port')}`);
 });

@@ -1,7 +1,6 @@
 const { Response } = require("express");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
-const secret = require("../config/config");
 
 module.exports = async (req, res, next) => {
     try {
