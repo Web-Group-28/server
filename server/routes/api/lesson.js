@@ -16,7 +16,7 @@ const lessonAPI = async (req, res) => {
       res.send(BaseResponse.ofError('Course not found', 404))
    } else {
       const lessonId = String(req.params.lessonId);
-      const lessonsID = [...lessonsData.data.lessons];
+      const lessonsID = [...lessonsData.data];
       if (lessonsID.includes(lessonId) == true) {
          const lesson = await Lesson.findById(lessonId).exec();
          res.send(BaseResponse.ofSucceed(lesson));

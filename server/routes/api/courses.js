@@ -1,4 +1,5 @@
 const Course = require("../../models/course");
+const BaseResponse = require("../../utils/baseResponse");
 
 /**
  * Courses
@@ -7,12 +8,6 @@ const Course = require("../../models/course");
  */
 const courses = async (_req, res) => {
    const courses = await Course.find({}).exec();
-   res.send({
-      data: courses,
-      meta: {
-         code: 200,
-         message: 'OK'
-      }
-   });
+   res.send(BaseResponse.ofSucceed(courses));
 }
 module.exports = courses;

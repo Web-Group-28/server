@@ -1,23 +1,14 @@
 const Course = require('../../models/course');
 const Part = require('../../models/part');
-/**
- * Lessons
- * @param {Request} req 
- * @param {Request} res 
- */
-const lessons = async function (req, res) {
+const BaseResponse = require('../../utils/baseResponse');
+
+const search = async courseId => {
    const course = await Course.findOne({
-      courseID: req.params.courseId
+      courseID: courseId
    }).exec();
    var lessonsID = [];
    if (course == null) {
-      res.send({
-         "data": null,
-         "meta": {
-            'code': 404,
-            'message': 'Course not found'
-         }
-      });
+      return BaseResponse.ofError('Course not found', 404);
    } else {
       const partsID = course.parts;
       for (let i = 0; i < partsID.length; i++) {
@@ -25,15 +16,15 @@ const lessons = async function (req, res) {
          const partLessons = part.lessons;
          lessonsID = lessonsID.concat(partLessons);
       }
-      res.send({
-         "data": {
-            "lessons": lessonsID
-         },
-         "meta": {
-            'code': 200,
-            'message': 'OK'
-         }
-      });
+      return BaseResponse.ofSucceed(lessonsID);
    }
+}
+/**
+ * Lessons
+ * @param {Request} req 
+ * @param {Request} res 
+ */
+const lessons = async function (req, res) {
+   res.send(await search(req.params.courseId));
 }
 module.exports = lessons;

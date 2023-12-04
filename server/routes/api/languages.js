@@ -1,5 +1,5 @@
-const { default: axios } = require("axios");
 const BaseResponse = require("../../utils/baseResponse");
+const Course = require("../../models/course");
 
 /**
  * Languages
@@ -7,8 +7,7 @@ const BaseResponse = require("../../utils/baseResponse");
  * @param {Request} res 
  */
 const languages = async (req, res) => {
-   const courseResponse = await axios.get(`http://localhost:3000/api/courses`);
-   const coursesData = courseResponse.data.data;
+   const coursesData = await Course.find({}).exec();
    const langs = new Set();
    for (let i = 0; i < coursesData.length; i++) {
       const courseId = String(coursesData[i].courseID);
