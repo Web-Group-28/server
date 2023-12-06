@@ -1,6 +1,6 @@
 const Lesson = require('../../models/lesson');
-const axios = require('axios');
 const BaseResponse = require('../../utils/baseResponse');
+const lessons = require('./lessons');
 /**
  * Lesson
  * @param {Request} req 
@@ -8,16 +8,21 @@ const BaseResponse = require('../../utils/baseResponse');
  */
 const lessonAPI = async (req, res) => {
    const courseId = String(req.params.courseId);
-   const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${courseId}/lessons`);
-   const lessonsData = lessonsResponse.data;
+   const lessonsData = await lessons.search(courseId);
    // console.log(lessonsData.meta.code);
    // console.log(lessonsData);
    if (parseInt(lessonsData.meta.code) != 200) {
       res.send(BaseResponse.ofError('Course not found', 404))
    } else {
       const lessonId = String(req.params.lessonId);
-      const lessonsID = [...lessonsData.data];
-      if (lessonsID.includes(lessonId) == true) {
+      var found = false;
+      for (let i = 0; i < lessonsData.data.length; i++) {
+         if (lessonsData.data[i].toString() === lessonId) {
+            found = true;
+            break;
+         }
+      }
+      if (found) {
          const lesson = await Lesson.findById(lessonId).exec();
          res.send(BaseResponse.ofSucceed(lesson));
       } else {

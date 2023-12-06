@@ -48,7 +48,7 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
 app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/languages', require('./routes/api/languages'));//OK
 app.get('/api/courses', require('./routes/api/courses'));//OK
-app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons'));//OK
+app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons').lessons);//OK
 app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson'));//OK
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));//?

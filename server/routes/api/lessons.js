@@ -27,4 +27,4 @@ const search = async courseId => {
 const lessons = async function (req, res) {
    res.send(await search(req.params.courseId));
 }
-module.exports = lessons;
+module.exports = { lessons, search };
