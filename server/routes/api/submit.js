@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const History = require('../../models/history');
+const BaseResponse = require('../../utils/baseResponse');
 
 /**
  * Submit a lesson into user history
@@ -28,8 +29,6 @@ const submit = async (req, res) => {
       userHistory.lessonID.addToSet(new mongoose.Types.ObjectId(lessonId));
       userHistory.save().then(console.log(`SUBMITTED: ${userHistory._id}`))
    }
-   res.send({
-      data: null
-   });
+   res.send(BaseResponse.ofSucceed(null));
 }
 module.exports = submit;
