@@ -1,4 +1,5 @@
-const { default: axios } = require("axios");
+const BaseResponse = require('../../utils/baseResponse');
+const lesson = require('./lesson');
 /**
  * Get `n` elements randomly from `array`.
  * @param {Array} array 
@@ -18,27 +19,21 @@ function getRandomFromList(array, n) {
 const exercises = async (req, res) => {
    const courseId = req.params.courseId;
    const lessonId = req.params.lessonId;
-   const exercisesData = (await axios.get(`http://localhost:3000/api/courses/${courseId}/lessons/${lessonId}`)).data.data;
-   if (exercisesData == null) {
-      res.send({
-         "data": null,
-         'meta': {
-            'status': 404,
-            'message': "Data not found"
-         }
-      });
+   const exercisesData = await lesson.helper(courseId, lessonId);
+   if (exercisesData.meta.code != 200) {
+      res.send(BaseResponse.ofError('Data not found', 404));
    }
    else {
-      const fill = [...exercisesData.fill];
+      const fill = [...exercisesData.data.fill];
       const randomFills = getRandomFromList(fill, 1);
 
-      const choice = [...exercisesData.choice];
+      const choice = [...exercisesData.data.choice];
       const randomChoices = getRandomFromList(choice, 3);
 
-      const sentence = [...exercisesData.sentence];
+      const sentence = [...exercisesData.data.sentence];
       const randomSentences = getRandomFromList(sentence, 3);
-      
-      const match = exercisesData.match;
+
+      const match = exercisesData.data.match;
       const keys = Object.keys(match);
       const randomKeys = getRandomFromList(keys, 5)
       const randomMatch = {}
@@ -52,13 +47,7 @@ const exercises = async (req, res) => {
          "match": randomMatch,
          "sentence": randomSentences
       }
-      res.send({
-         "data": data,
-         'meta': {
-            'status': 200,
-            'message': "Data found"
-         }
-      });
+      res.send(BaseResponse.ofSucceed(data));
    }
 }
 module.exports = exercises;

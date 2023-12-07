@@ -1,20 +1,18 @@
 const Lesson = require('../../models/lesson');
 const BaseResponse = require('../../utils/baseResponse');
 const lessons = require('./lessons');
+
 /**
- * Lesson
- * @param {Request} req 
- * @param {Request} res 
+ * Helper function
+ * @param {String} courseId course ID
+ * @param {String} lessonId lesson ID
+ * @returns {Promise<{data: any, meta: {code: number}}}
  */
-const lessonAPI = async (req, res) => {
-   const courseId = String(req.params.courseId);
+const helper = async (courseId, lessonId) => {
    const lessonsData = await lessons.search(courseId);
-   // console.log(lessonsData.meta.code);
-   // console.log(lessonsData);
-   if (parseInt(lessonsData.meta.code) != 200) {
-      res.send(BaseResponse.ofError('Course not found', 404))
+   if (lessonsData.meta.code != 200) {
+      return BaseResponse.ofError('Course not found', 404)
    } else {
-      const lessonId = String(req.params.lessonId);
       var found = false;
       for (let i = 0; i < lessonsData.data.length; i++) {
          if (lessonsData.data[i].toString() === lessonId) {
@@ -24,12 +22,21 @@ const lessonAPI = async (req, res) => {
       }
       if (found) {
          const lesson = await Lesson.findById(lessonId).exec();
-         res.send(BaseResponse.ofSucceed(lesson));
+         return BaseResponse.ofSucceed(lesson);
       } else {
-         // console.log(lessonsID);
-         // console.log(lessonId);
-         res.send(BaseResponse.ofError('Lesson not found', 404));
+         return BaseResponse.ofError('Lesson not found', 404);
       }
    }
 }
-module.exports = lessonAPI;
+
+/**
+ * Lesson
+ * @param {Request} req 
+ * @param {Request} res 
+ */
+const lessonAPI = async (req, res) => {
+   const courseId = String(req.params.courseId);
+   const lessonId = String(req.params.lessonId);
+   res.send(await helper(courseId, lessonId));
+}
+module.exports = { lessonAPI, helper };
