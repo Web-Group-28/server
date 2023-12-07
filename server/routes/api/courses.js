@@ -1,13 +1,7 @@
-const Course = require("../../models/course");
-const BaseResponse = require("../../utils/baseResponse");
+const express = require('express');
+const courseController = require('../../controllers/courseController');
+const router = express.Router();
 
-/**
- * Courses
- * @param {Request} req 
- * @param {Request} res 
- */
-const courses = async (_req, res) => {
-   const courses = await Course.find({}).exec();
-   res.send(BaseResponse.ofSucceed(courses));
-}
-module.exports = courses;
+router.get('/', courseController.courses);//OK
+
+module.exports = router;
