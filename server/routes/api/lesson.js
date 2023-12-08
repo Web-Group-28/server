@@ -1,5 +1,34 @@
 const Lesson = require('../../models/lesson');
-const axios = require('axios');
+const BaseResponse = require('../../utils/baseResponse');
+const lessons = require('./lessons');
+
+/**
+ * Helper function
+ * @param {String} courseId course ID
+ * @param {String} lessonId lesson ID
+ * @returns {Promise<{data: any, meta: {code: number}}}
+ */
+const helper = async (courseId, lessonId) => {
+   const lessonsData = await lessons.search(courseId);
+   if (lessonsData.meta.code != 200) {
+      return BaseResponse.ofError('Course not found', 404)
+   } else {
+      var found = false;
+      for (let i = 0; i < lessonsData.data.length; i++) {
+         if (lessonsData.data[i].toString() === lessonId) {
+            found = true;
+            break;
+         }
+      }
+      if (found) {
+         const lesson = await Lesson.findById(lessonId).exec();
+         return BaseResponse.ofSucceed(lesson);
+      } else {
+         return BaseResponse.ofError('Lesson not found', 404);
+      }
+   }
+}
+
 /**
  * Lesson
  * @param {Request} req 
@@ -7,41 +36,7 @@ const axios = require('axios');
  */
 const lessonAPI = async (req, res) => {
    const courseId = String(req.params.courseId);
-   const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${courseId}/lessons`);
-   const lessonsData = lessonsResponse.data;
-   // console.log(lessonsData.meta.code);
-   // console.log(lessonsData);
-   if (parseInt(lessonsData.meta.code) != 200) {
-      res.send({
-         "data": null,
-         "meta": {
-            'code': 404,
-            'message': 'Course not found'
-         }
-      });
-   } else {
-      const lessonId = String(req.params.lessonId);
-      const lessonsID = [...lessonsData.data.lessons];
-      if (lessonsID.includes(lessonId) == true) {
-         const lesson = await Lesson.findById(lessonId).exec();
-         res.send({
-            "data": lesson,
-            "meta": {
-               'code': 200,
-               'message': 'OK'
-            }
-         });
-      } else {
-         // console.log(lessonsID);
-         // console.log(lessonId);
-         res.send({
-            "data": null,
-            "meta": {
-               'code': 404,
-               'message': 'Lesson not found'
-            }
-         });
-      }
-   }
+   const lessonId = String(req.params.lessonId);
+   res.send(await helper(courseId, lessonId));
 }
-module.exports = lessonAPI;
+module.exports = { lessonAPI, helper };

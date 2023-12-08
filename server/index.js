@@ -4,7 +4,6 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const authMiddleware = require('./middlewares/auth')
 
 const app = express();
 const { default: axios } = require('axios');
@@ -46,12 +45,10 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
 });
 
 app.get('/api/user/profile', require('./routes/api/profile'));
-app.get('/api/languages', require('./routes/api/languages'));//OK
-app.get('/api/courses', require('./routes/api/courses'));//OK
-app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons'));//OK
-app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson'));//OK
+app.get('/api/courses/:courseId/lessons', require('./routes/api/lessons').lessons);//OK
+app.get('/api/courses/:courseId/lessons/:lessonId', require('./routes/api/lesson').lessonAPI);//OK
 app.get('/api/user/progress', require('./routes/api/progress'));
-app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));//?
+app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/api/exercises'));//OK
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
 app.post('/api/courses/:courseId/lessons/:lessonId/submit', require('./routes/api/submit'));//OK
 app.get('/api/leaderboard', require('./routes/api/leaderboard'));
