@@ -55,7 +55,7 @@ app.get('/api/courses/:courseId/lessons/:lessonId/exercises', require('./routes/
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
 app.post('/api/courses/:courseId/lessons/:lessonId/submit', require('./routes/api/submit'));//OK
 app.get('/api/leaderboard', require('./routes/api/leaderboard'));
-app.get('/api/user/friends', require('./routes/api/friends'));
+// app.get('/api/user/friends', require('./routes/api/friends'));
 
 app.listen(app.get('port'), () => {
   console.log(`Node app is running on port ${app.get('port')}`);
