@@ -1,5 +1,5 @@
 const BaseResponse = require('../../utils/baseResponse');
-const lesson = require('./lesson');
+const search = require('../../middlewares/lesson');
 /**
  * Get `n` elements randomly from `array`.
  * @param {Array} array 
@@ -19,7 +19,7 @@ function getRandomFromList(array, n) {
 const exercises = async (req, res) => {
    const courseId = req.params.courseId;
    const lessonId = req.params.lessonId;
-   const exercisesData = await lesson.helper(courseId, lessonId);
+   const exercisesData = await search(courseId, lessonId);
    if (exercisesData.meta.code != 200) {
       res.send(BaseResponse.ofError('Data not found', 404));
    }
