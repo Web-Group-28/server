@@ -16,11 +16,9 @@ class BaseResponse{
      */
     static ofError(message, code){
         return {
-            data:{
-                "error": message
-            },
             meta: {
-                code: code
+                "code": code,
+                "message": message
             }
         }
     }
