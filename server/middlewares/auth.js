@@ -1,26 +1,10 @@
-const { Response } = require("express");
-const jwt = require("jsonwebtoken");
-const UserModel = require("../models/user");
+const { expressjwt: jwt } = require("express-jwt");
 
-module.exports = async (req, res, next) => {
-    try {
-        const authHeader = req.headers.authorization;
+const requireSignin = jwt({
+    getToken: (req, res) => req.cookies.token,
+    secret: "HJKAHFKJ4O930909JEJR998392J0R9H89438RH3490R043",
+    algorithms: ["HS256"],
+  });
 
-        if (!authHeader) {
-            return res.sendStatus(401);
-        }
-        const token = authHeader.split(' ')[1];
-        const data = jwt.verify(token, secret.secret);
-        
-        const user = await UserModel.findById(data.id);
+module.exports = requireSignin;
 
-        if (!user) {
-            return res.sendStatus(401);
-        }
-
-        req.user = user;
-        next();
-    } catch (err) {
-        res.sendStatus(401);
-    }
-};

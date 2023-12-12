@@ -1,69 +1,88 @@
-const UserModel=require('../models/user');
-const BaseResponse = require('../utils/baseResponse');
-const Utils=require('../utils/utils');
-const mongoose = require('mongoose');
+const User = require("../models/user");
+const auth_utils = require("../utils/auth");
+const jwt = require("jsonwebtoken");
 
 class AuthController{
-    async register(req, res, next){
+
+    async register(req, res) {
         try {
-            const user = await UserModel.findOne({ email: req.body.email });
-
-            if(user != null){
-                res.status(400).json(BaseResponse.ofError("Email " + req.body.email + " is already exist", 400));
-                return;
+            // console.log(req.body);
+            const { name, email, password } = req.body;
+            // validation
+            if (!name) return res.status(400).send("Name is required");
+            if (!password || password.length < 6) {
+            return res
+                .status(400)
+                .send("Password is required and should be min 6 characters long");
             }
+            let userExist = await User.findOne({ email }).exec();
+            if (userExist) return res.status(400).send("Email is taken");
 
-            const newUser = new UserModel({
-                email: req.body.email,
-                username: req.body.username,
-                password: req.body.password,
+            // hash password
+            const hashedPassword = await auth_utils.hashPassword(password);
+
+            // register
+            const user = new User({
+            name,
+            email,
+            password: hashedPassword,
             });
-            const savedUser = await newUser.save();
-
-            res.send(Utils.normalizeUser(savedUser));
+            await user.save();
+            return res.json({ ok: true });
         } catch (err) {
-            if (err instanceof mongoose.Error.ValidationError) {
-                const messages = Object.values(err.errors).map((err) => err.message);
-                return res.status(500).json(BaseResponse.ofError(messages, 500));
-            }
-            next(err);
+            console.log(err);
+            return res.status(400).send("Error. Try again.");
         }
-    }
-
-    async login(req, res, next){
-        try {
-            const user = await UserModel.findOne({ email: req.body.email }).select(
-                "+password"
-            );
-            const error = "Incorrect email or password" ;
-    
-            if (!user) {
-                return res.status(422).json(errors);
-            }
-    
-            const isSamePassword = await user.validatePassword(req.body.password);
-    
-            if (!isSamePassword) {
-                return res.status(400).json(BaseResponse.ofError(error, 400));
-            }
-            req.session.user = String(user._id);
-            res.send(Utils.normalizeUser(user));
-        } catch (err) {
-            next(err);
-        }
-    }
-
-    currentUser(req, res) {
-        if (!req.user) {
-            return res.sendStatus(401);
-        }
-        res.send(Utils.normalizeUser(req.user));
     };
 
-    logout(req, res){
-        req.session.destroy(); 
-        res.status(200).send(BaseResponse.ofSucceed({message: "Logged out"}));
-    }
+    async login(req, res) {
+        try {
+            const { email, password } = req.body;
+            // check if our db has user with that email
+            const user = await User.findOne({ email }).exec();
+            if (!user) return res.status(400).send("No user found");
+            // check password
+            const match = await auth_utils.comparePassword(password, user.password);
+            if (!match) return res.status(400).send("Wrong password");
+
+            // create signed jwt
+            const token = jwt.sign({ _id: user._id }, "HJKAHFKJ4O930909JEJR998392J0R9H89438RH3490R043", {
+            expiresIn: "7d",
+            });
+            // return user and token to client, exclude hashed password
+            user.password = undefined;
+            // send token in cookie
+            res.cookie("token", token, {
+            httpOnly: true,
+            // secure: true, // only works on https
+            });
+            // send user as json response
+            res.json(user);
+        } catch (err) {
+            console.log(err);
+            return res.status(400).send("Error. Try again.");
+        }
+    };
+
+    async logout(req, res)  {
+        try {
+            res.clearCookie("token");
+            return res.json({ message: "Signout success" });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    async currentUser(req, res) {
+        try {
+            const user = await User.findById(req.user._id).select("-password").exec();
+            console.log("CURRENT_USER", user);
+            return res.json({ ok: true });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
 }
 
 module.exports = new AuthController();
