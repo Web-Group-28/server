@@ -1,8 +1,8 @@
-const Course = require('../../models/course');
-const Part = require('../../models/part');
-const BaseResponse = require('../../utils/baseResponse');
+const Course = require("../models/course");
+const Part = require("../models/part");
+const BaseResponse = require("../utils/baseResponse");
 
-const search = async courseId => {
+module.exports = async (courseId) => {
    const course = await Course.findOne({
       courseID: courseId
    }).exec();
@@ -19,12 +19,3 @@ const search = async courseId => {
       return BaseResponse.ofSucceed(lessonsID);
    }
 }
-/**
- * Lessons
- * @param {Request} req 
- * @param {Request} res 
- */
-const lessons = async function (req, res) {
-   res.send(await search(req.params.courseId));
-}
-module.exports = { lessons, search };
