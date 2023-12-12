@@ -1,31 +1,31 @@
-const User = require('../models/userModel');
+const User = require('../models/user');
 
-class UserController{
-    async getProfile(req, res){
+class UserController {
+    async getProfile(req, res) {
         try {
             const userId = req.body;
             const user = await User.findOne({ _id: userId }).populate({
-            path: 'courses',
-            populate: {
-                path: 'parts',
+                path: 'courses',
                 populate: {
-                path: 'lessons',
+                    path: 'parts',
+                    populate: {
+                        path: 'lessons',
+                    },
                 },
-            },
             });
 
             if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+                return res.status(404).json({ error: 'User not found' });
             }
 
             let totalPoints = 0;
 
             user.courses.forEach((course) => {
-            course.parts.forEach((part) => {
-                part.lessons.forEach((lesson) => {
-                totalPoints += lesson.userScore || 0;
+                course.parts.forEach((part) => {
+                    part.lessons.forEach((lesson) => {
+                        totalPoints += lesson.userScore || 0;
+                    });
                 });
-            });
             });
 
             res.json({ _id: user._id, name: user.name, point: totalPoints });
