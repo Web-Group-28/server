@@ -1,44 +1,29 @@
-const { Schema, model } = require("mongoose");
-const validator = require("validator");
-const bcryptjs = require('bcryptjs');
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
+const { ObjectId } = Schema;
 
-const userSchema = new Schema({
-    email: {
-        type: String,
-        required: [true, "Email is required"],
-        validate: [validator.isEmail, "Invalid email"],
-        createIndexes: { unique: true },
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: true,
     },
-    username: {
-        type: String,
-        required: [true, "Username is required"],
+    email: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String,
-        required: [true, "Password is required"],
-        select: false,
+      type: String,
+      required: true,
+      min: 6,
+      max: 64,
     },
-},
-{
-    timestamps: true,
-});
+    courses: [{ type: ObjectId, ref: "Course" }],
+  },
+  { timestamps: true }
+);
 
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        return next();
-    }
-
-    try {
-        const salt = await bcryptjs.genSalt(10);
-        this.password = await bcryptjs.hash(this.password, salt);
-        return next();
-    } catch (err) {
-        return next(err);
-    }
-});
-
-userSchema.methods.validatePassword = function (password) {
-    return bcryptjs.compare(password, this.password);
-};
-
-module.exports = model('User', userSchema);
+module.exports = model("User", userSchema);
