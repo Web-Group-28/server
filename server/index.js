@@ -44,7 +44,6 @@ app.get('/courses/:courseId/lessons', async (req, res) => {
   }
 });
 
-app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
 app.get('/api/leaderboard', require('./routes/api/leaderboard'));
