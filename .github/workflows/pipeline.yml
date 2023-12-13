@@ -40,5 +40,5 @@ jobs:
         env:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
-          gcloud container clusters get-credentials team-28-backend-cluster-1 --region asia-southeast1
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region  ${{ secrets.GKE_CLUSTER_REGION }}
           kubectl delete deployment ./k8s/deployment.yml | kustomize build ./k8s  | kubectl apply -f -
