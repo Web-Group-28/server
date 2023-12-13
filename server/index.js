@@ -4,14 +4,17 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const cookieParser =require("cookie-parser");
 
 const app = express();
 const { default: axios } = require('axios');
 const session = require('express-session');
 db.connect();
 
-app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json({ limit: "5mb" }));
+app.use(cookieParser());
+app.use(morgan("dev"));
 
 app.use(morgan('combined'));
 app.use(express.json());

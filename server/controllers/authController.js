@@ -47,13 +47,13 @@ class AuthController{
 
             // create signed jwt
             const token = jwt.sign({ _id: user._id }, "HJKAHFKJ4O930909JEJR998392J0R9H89438RH3490R043", {
-            expiresIn: "7d",
+                expiresIn: "7d",
             });
             // return user and token to client, exclude hashed password
             user.password = undefined;
             // send token in cookie
             res.cookie("token", token, {
-            httpOnly: true,
+                httpOnly: true,
             // secure: true, // only works on https
             });
             // send user as json response
@@ -75,7 +75,8 @@ class AuthController{
 
     async currentUser(req, res) {
         try {
-            const user = await User.findById(req.user._id).select("-password").exec();
+            const { id } = req.body;
+            const user = await User.findById(id).select("-password").exec();
             console.log("CURRENT_USER", user);
             return res.json({ ok: true });
         } catch (err) {
