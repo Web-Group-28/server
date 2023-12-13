@@ -75,8 +75,7 @@ class AuthController{
 
     async currentUser(req, res) {
         try {
-            const { id } = req.body;
-            const user = await User.findById(id).select("-password").exec();
+            const user = await User.findById(req.user._id).select("-password").exec();            
             console.log("CURRENT_USER", user);
             return res.json({ ok: true });
         } catch (err) {
