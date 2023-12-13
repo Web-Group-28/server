@@ -41,4 +41,4 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region  ${{ secrets.GKE_CLUSTER_REGION }}
-          kubectl delete deployment ./k8s/deployment.yml | kustomize build ./k8s  | kubectl apply -f -
+          kubectl delete -f deployment ./k8s/deployment.yml --cascade=foreground | kustomize build ./k8s  | kubectl apply -f -
