@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+
       - name: Install gcloud cli
         uses: google-github-actions/setup-gcloud@v0
         with:
@@ -44,4 +44,4 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region  ${{ secrets.GKE_CLUSTER_REGION }}
-          kubectl delete -f deployment ./k8s/deployment.yml --cascade=foreground | kustomize build ./k8s  | kubectl apply -f -
+          kubectl delete deployment app-deployment | kustomize build ./k8s  | kubectl apply -f -
