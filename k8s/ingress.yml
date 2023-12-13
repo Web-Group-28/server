@@ -4,7 +4,8 @@ metadata:
   name: app-ingress
 spec:
   rules:
-  - http:
+  - host: namnt194337.id.vn
+    http:
       paths:
       - path: /*
         pathType: ImplementationSpecific
