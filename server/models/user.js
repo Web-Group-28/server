@@ -21,7 +21,10 @@ const userSchema = new Schema(
       min: 6,
       max: 64,
     },
-    courses: [{ type: ObjectId, ref: "Course" }],
+    weekScore: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
