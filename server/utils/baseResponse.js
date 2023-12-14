@@ -1,9 +1,21 @@
 class BaseResponse{
     static ofSucceed(data){
         return {
-            data: data,
-            meta: {
-                code: 200
+            "data": data,
+            "meta": {
+                "code": 200
+            }
+        }
+    }
+
+    static ofSucceed(data, page, size, count){
+        return {
+            "data": data,
+            "meta": {
+                "code": 200,
+                "page": page,
+                "size": size,
+                "count": count
             }
         }
     }
@@ -16,7 +28,7 @@ class BaseResponse{
      */
     static ofError(message, code){
         return {
-            meta: {
+            "meta": {
                 "code": code,
                 "message": message
             }

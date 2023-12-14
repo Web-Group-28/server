@@ -1,15 +1,34 @@
 const User = require('../models/user');
 const cron = require('node-cron');
+const BaseResponse = require('../utils/baseResponse');
 
 class UserController{
     async getWeekScore(req, res){
         try {
             const user = await User.findById(req.user._id).select("-password").exec();            
-            return res.json({ weekScore: user.weekScore });
+            return res.status(200).send(BaseResponse.ofSucceed({
+                "user_id": user._id,
+                "week_score": user.weekScore
+            }));
         } catch (err) {
             console.log(err);
+            return res.status(400).send(BaseResponse.ofError(err))
         }
     };
+
+    async updateWeekScore(req, res){
+        try {
+            const user = await User.findById(req.user_id).select("-password").exec();  
+            user.weekScore = user.weekScore + req.score;
+            await user.save();          
+            return res.status(200).send(BaseResponse.ofSucceed({
+                "user_id": user._id,
+                "week_score": user.weekScore
+            }));
+        } catch (err) {
+            return res.status(400).send(BaseResponse.ofError(err))
+        }
+    }
 
     constructor() {
         cron.schedule('0 0 * * 1', async () => {

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser =require("cookie-parser");
+const BaseResponse = require('./utils/baseResponse');
 
 const app = express();
 const { default: axios } = require('axios');
@@ -32,24 +33,11 @@ app.set('port', port);
 route(app);
 
 app.get('/', (req, res) => {
-  res.send("API is UP");
+  res.send(BaseResponse.ofSucceed(null));
 });
-// app.get('/courses/:courseId/lessons', async (req, res) => {
-//   try {
-//     const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${req.params.courseId}/lessons`);
-//     const lessonsData = lessonsResponse.data;
-//     console.log(lessonsData)
-//     res.send(lessonsData)
-//   } catch (error) {
-//     // Handle any errors that occur during the request
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
 
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
-app.get('/api/leaderboard', require('./routes/api/leaderboard'));
 
 app.listen(app.get('port'), '0.0.0.0', () => {
   console.log(`Node app is running on port ${app.get('port')}`);
