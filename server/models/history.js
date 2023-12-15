@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const historySchema = new Schema({
    userID: ObjectId,
    courseID: String,
-   lessonID: [ObjectId]
+   lessonID: [ObjectId],
+   point: Number
 });
 const History = mongoose.model('history', historySchema);
 module.exports = History;

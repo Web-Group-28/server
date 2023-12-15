@@ -10,6 +10,6 @@ router.get('/', courseController.courses);//OK
 router.get('/:courseId/lessons', lessonsController.lessons);//OK
 router.get('/:courseId/lessons/:lessonId', lessonController.lesson);//OK
 router.get('/:courseId/lessons/:lessonId/exercises', exercisesController.exercises);//OK
-router.post('/:courseId/lessons/:lessonId/submit', submitController.submit);//OK
+router.post('/:courseId/lessons/:lessonId/submit/:isPerfect', submitController.submit);//OK
 
 module.exports = router;
