@@ -8,5 +8,6 @@ const middleware = require("../../middlewares/auth");
 const userController = require("../../controllers/userController");
 
 router.get("/", middleware, userController.getWeekScore);
+router.post("/addScore", middleware, userController.addScore);
 
 module.exports = router;
