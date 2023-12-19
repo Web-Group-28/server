@@ -11,18 +11,21 @@ class ExercisesController {
          res.send(BaseResponse.ofError('Data not found', 404));
       }
       else {
+         const FILL = 'fill';
+         const CHOICE = 'choice';
+         const SENTENCE = 'sentence';
          const fill = [...exercisesData.data.fill];
-         const randomFills = getRandomFromList(fill, 1);
+         const randomFills = await getRandomFromList(fill, 1, FILL);
 
          const choice = [...exercisesData.data.choice];
-         const randomChoices = getRandomFromList(choice, 3);
+         const randomChoices = await getRandomFromList(choice, 3, CHOICE);
 
          const sentence = [...exercisesData.data.sentence];
-         const randomSentences = getRandomFromList(sentence, 3);
+         const randomSentences = await getRandomFromList(sentence, 3, SENTENCE);
 
          const match = exercisesData.data.match;
          const keys = Object.keys(match);
-         const randomKeys = getRandomFromList(keys, 5)
+         const randomKeys = await getRandomFromList(keys, 5, "MATCH");
          const randomMatch = {}
          for (let i = 0; i < randomKeys.length; i++) {
             randomMatch[randomKeys[i]] = match[randomKeys[i]];
