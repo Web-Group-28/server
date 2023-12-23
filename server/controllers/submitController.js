@@ -8,7 +8,8 @@ class SubmitController {
       const plusPoint = isPerfect == 1 ? 25 : 20;
       const courseId = String(req.params.courseId);
       const lessonId = String(req.params.lessonId);
-      const userID = String(req.session.user);
+      console.log("BODY:", req.body);
+      const userID = String(req.body.userID);
       const userHistory = await History.findOne({
          userID: userID,
          courseID: courseId
