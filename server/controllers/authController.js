@@ -51,6 +51,7 @@ class AuthController{
                 expiresIn: "7d",
             });
             // return user and token to client, exclude hashed password
+            req.session.user = String(user._id);
             user.password = undefined;
             // send token in cookie
             res.cookie("token", token, {
