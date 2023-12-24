@@ -9,5 +9,7 @@ const userController = require("../../controllers/userController");
 
 router.put("/:userId", middleware, userController.updateWeekScore);
 router.get("/", middleware, userController.getWeekScore);
+router.get("/userData", middleware, userController.userData);
+router.post("/addScore", middleware, userController.addScore);
 
 module.exports = router;

@@ -5,12 +5,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser =require("cookie-parser");
-const BaseResponse = require('./utils/baseResponse');
+const csrf = require("csurf");
 
 const app = express();
 const { default: axios } = require('axios');
 const session = require('express-session');
 db.connect();
+
+const csrfProtection = csrf({ cookie: true });
 
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
@@ -26,7 +28,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 
 app.set('port', port);
 
@@ -39,6 +41,12 @@ app.get('/', (req, res) => {
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
 
-app.listen(app.get('port'), '0.0.0.0', () => {
+app.use(csrfProtection);
+
+app.get("/api/csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
+app.listen(app.get('port'), () => {
   console.log(`Node app is running on port ${app.get('port')}`);
 });
