@@ -2,9 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
-  - http:
+  - host: namnt194337.id.vn
+    http:
       paths:
       - path: /*
         pathType: ImplementationSpecific

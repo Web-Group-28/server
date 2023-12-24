@@ -23,6 +23,13 @@ jobs:
       
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/team-28-backend
+  
+  pull-and-up:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Install gcloud cli
         uses: google-github-actions/setup-gcloud@v0
@@ -36,5 +43,5 @@ jobs:
         env:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
-          gcloud container clusters get-credentials team-28-backend-cluster-1 --region asia-southeast1
-          kustomize build ./k8s  | kubectl apply -f -
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region  ${{ secrets.GKE_CLUSTER_REGION }}
+          kubectl delete deployment app-deployment | kustomize build ./k8s  | kubectl apply -f -

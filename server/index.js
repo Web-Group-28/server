@@ -35,26 +35,11 @@ app.set('port', port);
 route(app);
 
 app.get('/', (req, res) => {
-  res.send("API is UP");
-});
-app.get('/courses/:courseId/lessons', async (req, res) => {
-  try {
-    const lessonsResponse = await axios.get(`http://localhost:3000/api/courses/${req.params.courseId}/lessons`);
-    const lessonsData = lessonsResponse.data;
-    console.log(lessonsData)
-    res.send(lessonsData)
-  } catch (error) {
-    // Handle any errors that occur during the request
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  res.send(BaseResponse.ofSucceed(null));
 });
 
-app.get('/api/user/profile', require('./routes/api/profile'));
 app.get('/api/user/progress', require('./routes/api/progress'));
 app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
-app.get('/api/leaderboard', require('./routes/api/leaderboard'));
-app.get('/api/user/friends', require('./routes/api/friends'));
 
 app.use(csrfProtection);
 

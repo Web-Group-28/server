@@ -1,11 +1,7 @@
-/**
- * Leaderboard
- * @param {Request} req 
- * @param {Request} res 
- */
-const leaderboard = (req, res) => {
-   res.send({
-      "Route": 'leaderboard'
-   });
-}
-module.exports = leaderboard;
+const express = require('express');
+const router = express.Router();
+const leaderBoardController = require("../../controllers/leaderBoardController")
+
+router.get("/", leaderBoardController.getTopUser);
+
+module.exports = router;
