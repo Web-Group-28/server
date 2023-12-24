@@ -49,4 +49,5 @@ app.get("/api/csrf-token", (req, res) => {
 
 app.listen(app.get('port'), () => {
   console.log(`Node app is running on port ${app.get('port')}`);
+  
 });
