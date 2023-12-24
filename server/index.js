@@ -38,8 +38,7 @@ app.get('/', (req, res) => {
   res.send(BaseResponse.ofSucceed(null));
 });
 
-app.get('/api/user/progress', require('./routes/api/progress'));
-app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
+app.get('/api/user/progress/:userID/:courseID', require('./routes/api/progress'));
 
 app.use(csrfProtection);
 
