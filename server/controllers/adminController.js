@@ -56,5 +56,47 @@ class AdminController {
             return res.status(400).send(BaseResponse.ofError(err, 400))
         }
     }
+
+    async getAllCourses(req, res){
+        try{
+            const size = req.query.size || 10;
+            const page = req.query.page || 0;
+            const courses = await Course.find({})
+                .skip(page * size).limit(size).exec();
+            const count = await Course.count();
+            return res.status(200).send(BaseResponse.ofSucceed(courses, page, size, count));
+        }
+        catch(err){
+            return res.status(400).send(BaseResponse.ofError(err, 400))
+        }
+    }
+
+    async getAllParts(req, res){
+        try{
+            const size = req.query.size || 10;
+            const page = req.query.page || 0;
+            const parts = await Part.find({})
+                .skip(page * size).limit(size).exec();
+            const count = await Part.count();
+            return res.status(200).send(BaseResponse.ofSucceed(parts, page, size, count));
+        }
+        catch(err){
+            return res.status(400).send(BaseResponse.ofError(err, 400))
+        }
+    }
+
+    async getAllLessons(req, res){
+        try{
+            const size = req.query.size || 10;
+            const page = req.query.page || 0;
+            const lessons = await Lesson.find({})
+                .skip(page * size).limit(size).exec();
+            const count = await Lesson.count();
+            return res.status(200).send(BaseResponse.ofSucceed(lessons, page, size, count));
+        }
+        catch(err){
+            return res.status(400).send(BaseResponse.ofError(err, 400))
+        }
+    }
 }
 module.exports = new AdminController();
