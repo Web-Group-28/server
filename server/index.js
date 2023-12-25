@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser =require("cookie-parser");
 const csrf = require("csurf");
+const BaseResponse = require("./utils/baseResponse");
 
 const app = express();
 const { default: axios } = require('axios');
