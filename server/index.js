@@ -35,9 +35,9 @@ app.set('port', port);
 
 route(app);
 
-app.get('/', (req, res) => {
-  res.send(BaseResponse.ofSucceed(null));
-});
+// app.get('/', (req, res) => {
+//   res.send(BaseResponse.ofSucceed(null));
+// });
 
 app.get('/api/user/progress/:userID/:courseID', require('./routes/api/progress'));
 
