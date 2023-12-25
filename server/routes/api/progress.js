@@ -12,7 +12,7 @@ const progress = async (req, res) => {
       courseID: req.params.courseID
    }).exec();
    if (history == null) {
-      res.send(BaseResponse.ofSucceed(null));
+      res.send(BaseResponse.ofSucceed([]));
    } else {
       res.send(BaseResponse.ofSucceed(history.lessonID));
    }
