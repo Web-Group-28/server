@@ -32,13 +32,13 @@ class UserController{
 
     async addScore(req, res) {
         try {
-            const { score } = req.body;
+            const { id, score } = req.body;
 
             if (!score || isNaN(score)) {
                 return res.status(400).json({ error: 'Invalid score provided' });
             }
 
-            const user = await User.findById(req.user._id).exec();
+            const user = await User.findById(id).exec();
 
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
@@ -47,7 +47,7 @@ class UserController{
             user.weekScore += parseFloat(score);
             await user.save();
 
-            return res.json({ message: 'Score added successfully', weekScore: user.weekScore });
+            return res.json(user);
         } catch (err) {
             console.error('Error adding score:', err);
             return res.status(500).json({ error: 'Internal server error' });
