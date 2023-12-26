@@ -7,9 +7,9 @@ const middleware = require("../../middlewares/auth");
 // controllers
 const userController = require("../../controllers/userController");
 
-router.put("/:userId", middleware, userController.updateWeekScore);
-router.get("/", middleware, userController.getWeekScore);
-router.get("/userData", middleware, userController.userData);
-// router.post("/addScore", middleware, userController.addScore);
+router.put("/:userId", userController.updateWeekScore);
+router.get("/", userController.getWeekScore);
+router.get("/userData", userController.userData);
+router.post("/addScore", userController.addScore);
 
 module.exports = router;
