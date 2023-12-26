@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser =require("cookie-parser");
 const csrf = require("csurf");
+const BaseResponse = require("./utils/baseResponse");
 
 const app = express();
 const { default: axios } = require('axios');
@@ -38,8 +39,7 @@ app.get('/', (req, res) => {
   res.send(BaseResponse.ofSucceed(null));
 });
 
-app.get('/api/user/progress', require('./routes/api/progress'));
-app.get('/api/courses/:courseId/lessons/:lessonId/exercises/:exerciseId', require('./routes/api/exercise'));//?
+app.get('/api/user/progress/:userID/:courseID', require('./routes/api/progress'));
 
 app.use(csrfProtection);
 
